@@ -1,0 +1,19 @@
+server:
+  port: 8093
+  servlet:
+    context-path: /traceability-api
+
+spring:
+  application:
+    name: traceability-microservice
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/traceability_db
+      auto-index-creation: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
