@@ -17,3 +17,6 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     operationsSorter: method
+
+jwt:
+  secret: cG93ZXJ1cC10cmFjZWFiaWxpdHktbWljcm9zZXJ2aWNlLXNlY3JldC1rZXktMTIzNDU2Nzg5

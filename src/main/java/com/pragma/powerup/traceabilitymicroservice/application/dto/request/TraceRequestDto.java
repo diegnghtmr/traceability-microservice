@@ -15,9 +15,9 @@ public class TraceRequestDto {
     @NotNull
     private Long orderId;
     @NotNull
-    private Long clientIdentity;
-    @NotNull
-    private Long employeeIdentity;
+    private Long clientId;
+    @NotBlank
+    private String employeeEmail;
     @NotBlank
     private String previousState;
     @NotBlank

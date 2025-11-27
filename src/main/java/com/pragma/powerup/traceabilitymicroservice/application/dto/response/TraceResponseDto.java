@@ -13,9 +13,9 @@ import lombok.Setter;
 public class TraceResponseDto {
     private String id;
     private Long orderId;
-    private Long clientIdentity;
-    private Long employeeIdentity;
+    private Long clientId;
+    private String employeeEmail;
     private String previousState;
     private String newState;
-    private LocalDateTime date;
+    private LocalDateTime time;
 }

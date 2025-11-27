@@ -9,6 +9,6 @@ import org.mapstruct.Mapping;
 public interface ITraceRequestMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "date", ignore = true)
+    @Mapping(target = "time", ignore = true)
     Trace toTrace(TraceRequestDto traceRequestDto);
 }

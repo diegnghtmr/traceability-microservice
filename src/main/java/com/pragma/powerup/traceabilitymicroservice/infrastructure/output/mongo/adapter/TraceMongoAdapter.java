@@ -7,9 +7,7 @@ import com.pragma.powerup.traceabilitymicroservice.infrastructure.output.mongo.m
 import com.pragma.powerup.traceabilitymicroservice.infrastructure.output.mongo.repository.ITraceRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
 public class TraceMongoAdapter implements ITracePersistencePort {
 
@@ -17,14 +15,13 @@ public class TraceMongoAdapter implements ITracePersistencePort {
     private final ITraceEntityMapper traceEntityMapper;
 
     @Override
-    public Trace saveTrace(Trace trace) {
-        TraceEntity savedEntity = traceRepository.save(traceEntityMapper.toEntity(trace));
-        return traceEntityMapper.toTrace(savedEntity);
+    public void saveTrace(Trace trace) {
+        traceRepository.save(traceEntityMapper.toEntity(trace));
     }
 
     @Override
-    public List<Trace> getTracesByOrderId(Long orderId) {
-        List<TraceEntity> traceEntities = traceRepository.findByOrderId(orderId);
+    public List<Trace> getTraceByClient(Long clientId) {
+        List<TraceEntity> traceEntities = traceRepository.findAllByClientId(clientId);
         return traceEntityMapper.toTraceList(traceEntities);
     }
 }
