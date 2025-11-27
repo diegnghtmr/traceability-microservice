@@ -1,5 +1,6 @@
 package com.pragma.powerup.traceabilitymicroservice.infrastructure.exception;
 
+import com.pragma.powerup.traceabilitymicroservice.domain.exception.UnauthorizedTraceAccessException;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception, WebRequest request) {
         ErrorResponse errorResponse = buildErrorResponse(exception.getMessage(), HttpStatus.BAD_REQUEST, request);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(UnauthorizedTraceAccessException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedTraceAccessException(UnauthorizedTraceAccessException exception, WebRequest request) {
+        ErrorResponse errorResponse = buildErrorResponse("Unauthorized access to trace", HttpStatus.FORBIDDEN, request);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)

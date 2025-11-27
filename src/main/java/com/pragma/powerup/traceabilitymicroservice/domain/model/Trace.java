@@ -5,23 +5,23 @@ import java.time.LocalDateTime;
 public class Trace {
     private String id;
     private Long orderId;
-    private Long clientIdentity;
-    private Long employeeIdentity;
+    private Long clientId;
+    private String employeeEmail;
     private String previousState;
     private String newState;
-    private LocalDateTime date;
+    private LocalDateTime time;
 
     public Trace() {
     }
 
-    public Trace(String id, Long orderId, Long clientIdentity, Long employeeIdentity, String previousState, String newState, LocalDateTime date) {
+    public Trace(String id, Long orderId, Long clientId, String employeeEmail, String previousState, String newState, LocalDateTime time) {
         this.id = id;
         this.orderId = orderId;
-        this.clientIdentity = clientIdentity;
-        this.employeeIdentity = employeeIdentity;
+        this.clientId = clientId;
+        this.employeeEmail = employeeEmail;
         this.previousState = previousState;
         this.newState = newState;
-        this.date = date;
+        this.time = time;
     }
 
     public String getId() {
@@ -40,20 +40,20 @@ public class Trace {
         this.orderId = orderId;
     }
 
-    public Long getClientIdentity() {
-        return clientIdentity;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClientIdentity(Long clientIdentity) {
-        this.clientIdentity = clientIdentity;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
-    public Long getEmployeeIdentity() {
-        return employeeIdentity;
+    public String getEmployeeEmail() {
+        return employeeEmail;
     }
 
-    public void setEmployeeIdentity(Long employeeIdentity) {
-        this.employeeIdentity = employeeIdentity;
+    public void setEmployeeEmail(String employeeEmail) {
+        this.employeeEmail = employeeEmail;
     }
 
     public String getPreviousState() {
@@ -72,11 +72,11 @@ public class Trace {
         this.newState = newState;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 }

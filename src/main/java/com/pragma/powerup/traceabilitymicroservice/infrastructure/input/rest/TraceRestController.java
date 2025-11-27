@@ -22,32 +22,33 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/traces")
+@RequestMapping("/trace")
 @Validated
 @RequiredArgsConstructor
 public class TraceRestController {
 
     private final ITraceHandler traceHandler;
 
-    @Operation(summary = "Create a new trace for an order")
+    @Operation(summary = "Create a new trace log")
     @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Trace created", content = @Content(schema = @Schema(implementation = TraceResponseDto.class))),
+        @ApiResponse(responseCode = "201", description = "Trace created"),
         @ApiResponse(responseCode = "400", description = "Invalid trace data supplied", content = @Content),
         @ApiResponse(responseCode = "500", description = "Unexpected server error", content = @Content)
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TraceResponseDto createTrace(@Valid @RequestBody TraceRequestDto traceRequestDto) {
-        return traceHandler.createTrace(traceRequestDto);
+    public void saveTrace(@Valid @RequestBody TraceRequestDto traceRequestDto) {
+        traceHandler.saveTrace(traceRequestDto);
     }
 
-    @Operation(summary = "Get traces by order id")
+    @Operation(summary = "Get traces by client id")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Traces retrieved", content = @Content(schema = @Schema(implementation = TraceResponseDto.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid order id", content = @Content)
+        @ApiResponse(responseCode = "400", description = "Invalid client id", content = @Content),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access to trace", content = @Content)
     })
-    @GetMapping("/order/{orderId}")
-    public List<TraceResponseDto> getTracesByOrderId(@PathVariable Long orderId) {
-        return traceHandler.getTracesByOrderId(orderId);
+    @GetMapping("/client/{clientId}")
+    public List<TraceResponseDto> getTraceByClient(@PathVariable Long clientId) {
+        return traceHandler.getTraceByClient(clientId);
     }
 }

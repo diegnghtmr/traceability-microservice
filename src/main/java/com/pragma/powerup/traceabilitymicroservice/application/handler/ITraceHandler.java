@@ -5,7 +5,7 @@ import com.pragma.powerup.traceabilitymicroservice.application.dto.response.Trac
 import java.util.List;
 
 public interface ITraceHandler {
-    TraceResponseDto createTrace(TraceRequestDto traceRequestDto);
+    void saveTrace(TraceRequestDto traceRequestDto);
 
-    List<TraceResponseDto> getTracesByOrderId(Long orderId);
+    List<TraceResponseDto> getTraceByClient(Long clientId);
 }
