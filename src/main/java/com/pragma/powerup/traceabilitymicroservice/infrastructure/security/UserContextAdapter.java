@@ -23,4 +23,14 @@ public class UserContextAdapter implements IUserContextPort {
         }
         return null;
     }
+
+    @Override
+    public Long getRestaurantId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getCredentials() instanceof String) {
+            String token = (String) authentication.getCredentials();
+            return jwtProvider.extractRestaurantId(token);
+        }
+        return null;
+    }
 }

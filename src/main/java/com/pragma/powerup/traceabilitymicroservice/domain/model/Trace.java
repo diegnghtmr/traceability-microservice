@@ -10,11 +10,12 @@ public class Trace {
     private String previousState;
     private String newState;
     private LocalDateTime time;
+    private Long restaurantId;
 
     public Trace() {
     }
 
-    public Trace(String id, Long orderId, Long clientId, String employeeEmail, String previousState, String newState, LocalDateTime time) {
+    public Trace(String id, Long orderId, Long clientId, String employeeEmail, String previousState, String newState, LocalDateTime time, Long restaurantId) {
         this.id = id;
         this.orderId = orderId;
         this.clientId = clientId;
@@ -22,6 +23,7 @@ public class Trace {
         this.previousState = previousState;
         this.newState = newState;
         this.time = time;
+        this.restaurantId = restaurantId;
     }
 
     public String getId() {
@@ -78,5 +80,13 @@ public class Trace {
 
     public void setTime(LocalDateTime time) {
         this.time = time;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

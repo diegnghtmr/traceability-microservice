@@ -1,6 +1,5 @@
 package com.pragma.powerup.traceabilitymicroservice.application.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TraceResponseDto {
-    private String id;
+public class OrderEfficiencyDto {
     private Long orderId;
-    private Long clientId;
-    private String employeeEmail;
-    private String previousState;
-    private String newState;
-    private LocalDateTime time;
-    private Long restaurantId;
+    private Long durationInMinutes;
 }

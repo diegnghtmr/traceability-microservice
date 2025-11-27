@@ -22,4 +22,5 @@ public class TraceEntity {
     private String previousState;
     private String newState;
     private LocalDateTime time;
+    private Long restaurantId;
 }

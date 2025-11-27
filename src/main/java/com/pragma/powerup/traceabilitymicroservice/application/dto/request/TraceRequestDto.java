@@ -22,4 +22,6 @@ public class TraceRequestDto {
     private String previousState;
     @NotBlank
     private String newState;
+    @NotNull
+    private Long restaurantId;
 }
