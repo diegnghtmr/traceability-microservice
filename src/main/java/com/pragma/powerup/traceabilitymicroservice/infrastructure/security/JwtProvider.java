@@ -34,6 +34,19 @@ public class JwtProvider {
         return null;
     }
 
+    public Long extractRestaurantId(String token) {
+        Claims claims = extractAllClaims(token);
+        Object id = claims.get("restaurantId");
+        if (id instanceof Integer) {
+            return ((Integer) id).longValue();
+        } else if (id instanceof Long) {
+            return (Long) id;
+        } else if (id instanceof String) {
+             return Long.parseLong((String) id);
+        }
+        return null;
+    }
+
     @SuppressWarnings("unchecked")
     public List<String> extractRoles(String token) {
         return (List<String>) extractAllClaims(token).get("roles");

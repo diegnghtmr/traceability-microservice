@@ -24,4 +24,10 @@ public class TraceMongoAdapter implements ITracePersistencePort {
         List<TraceEntity> traceEntities = traceRepository.findAllByClientId(clientId);
         return traceEntityMapper.toTraceList(traceEntities);
     }
+
+    @Override
+    public List<Trace> getAllTracesByRestaurant(Long restaurantId) {
+        List<TraceEntity> traceEntities = traceRepository.findAllByRestaurantId(restaurantId);
+        return traceEntityMapper.toTraceList(traceEntities);
+    }
 }
