@@ -8,7 +8,7 @@ spring:
     name: traceability-microservice
   data:
     mongodb:
-      uri: mongodb://localhost:27017/traceability_db
+      uri: mongodb://traceability-mongodb:27017/traceability_db
       auto-index-creation: true
 
 springdoc:

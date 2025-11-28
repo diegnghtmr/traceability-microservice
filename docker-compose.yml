@@ -1,0 +1,43 @@
+services:
+  traceability-mongodb:
+    image: mongo:latest
+    container_name: traceability-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: traceability_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - traceability_mongodb_data:/data/db
+    networks:
+      - traceability-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  traceability-microservice:
+    build: .
+    container_name: traceability-microservice
+    command: ["--spring.data.mongodb.uri=mongodb://traceability-mongodb:27017/traceability_db"]
+    ports:
+      - "8093:8093"
+    environment:
+      SPRING_APPLICATION_JSON: '{"spring":{"data":{"mongodb":{"uri":"mongodb://traceability-mongodb:27017/traceability_db"}},"mongodb":{"uri":"mongodb://traceability-mongodb:27017/traceability_db"}}}'
+      SPRING_DATA_MONGODB_URI: mongodb://traceability-mongodb:27017/traceability_db
+      SPRING_DATA_MONGODB_HOST: traceability-mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: traceability_db
+    depends_on:
+      traceability-mongodb:
+        condition: service_healthy
+    networks:
+      - traceability-network
+    restart: on-failure
+
+networks:
+  traceability-network:
+    driver: bridge
+
+volumes:
+  traceability_mongodb_data:
