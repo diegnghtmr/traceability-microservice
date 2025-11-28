@@ -1,7 +1,9 @@
 package com.pragma.powerup.traceabilitymicroservice.domain.usecase;
 
+import com.pragma.powerup.traceabilitymicroservice.domain.exception.UnauthorizedTraceAccessException;
 import com.pragma.powerup.traceabilitymicroservice.domain.model.Trace;
 import com.pragma.powerup.traceabilitymicroservice.domain.spi.ITracePersistencePort;
+import com.pragma.powerup.traceabilitymicroservice.domain.spi.IUserContextPort;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -24,48 +26,58 @@ class TraceUseCaseTest {
     @Mock
     private ITracePersistencePort tracePersistencePort;
 
+    @Mock
+    private IUserContextPort userContextPort;
+
     @InjectMocks
     private TraceUseCase traceUseCase;
 
     @Test
-    void createTraceShouldSetDateAndDelegateToPersistence() {
-        Trace trace = new Trace(null, 1L, 10L, 20L, "CREATED", "READY", null);
-        when(tracePersistencePort.saveTrace(any(Trace.class))).thenAnswer(invocation -> {
-            Trace savedTrace = invocation.getArgument(0);
-            savedTrace.setId("generated-id");
-            return savedTrace;
-        });
-
-        Trace result = traceUseCase.createTrace(trace);
+    void saveTraceShouldDelegateToPersistence() {
+        Trace trace = new Trace(null, 1L, 10L, "employee@test.com", "CREATED", "READY", LocalDateTime.now(), 20L);
+        
+        traceUseCase.saveTrace(trace);
 
         ArgumentCaptor<Trace> traceCaptor = ArgumentCaptor.forClass(Trace.class);
         verify(tracePersistencePort).saveTrace(traceCaptor.capture());
         assertEquals(1L, traceCaptor.getValue().getOrderId());
-        assertNotNull(traceCaptor.getValue().getDate());
-        assertEquals("generated-id", result.getId());
-        assertNotNull(result.getDate());
+        assertEquals(10L, traceCaptor.getValue().getClientId());
+        assertEquals("employee@test.com", traceCaptor.getValue().getEmployeeEmail());
+        assertEquals("CREATED", traceCaptor.getValue().getPreviousState());
+        assertEquals("READY", traceCaptor.getValue().getNewState());
+        assertEquals(20L, traceCaptor.getValue().getRestaurantId());
     }
 
     @Test
-    void getTracesByOrderIdShouldReturnPersistenceResult() {
-        List<Trace> traces = List.of(new Trace("1", 2L, 11L, 22L, "PENDING", "DONE", LocalDateTime.now()));
-        when(tracePersistencePort.getTracesByOrderId(2L)).thenReturn(traces);
+    void getTraceByClientShouldReturnPersistenceResultWhenAuthorized() {
+        Long clientId = 10L;
+        List<Trace> traces = List.of(new Trace("1", 2L, clientId, "employee@test.com", "PENDING", "DONE", LocalDateTime.now(), 22L));
+        
+        when(userContextPort.getCurrentUserId()).thenReturn(clientId);
+        when(tracePersistencePort.getTraceByClient(clientId)).thenReturn(traces);
 
-        List<Trace> result = traceUseCase.getTracesByOrderId(2L);
+        List<Trace> result = traceUseCase.getTraceByClient(clientId);
 
         assertEquals(traces, result);
-        verify(tracePersistencePort).getTracesByOrderId(2L);
+        verify(tracePersistencePort).getTraceByClient(clientId);
     }
 
     @Test
-    void createTraceShouldValidateRequiredFields() {
-        Trace trace = new Trace();
+    void getTraceByClientShouldThrowExceptionWhenUnauthorized() {
+        Long clientId = 10L;
+        Long differentUserId = 99L;
+        
+        when(userContextPort.getCurrentUserId()).thenReturn(differentUserId);
 
-        assertThrows(IllegalArgumentException.class, () -> traceUseCase.createTrace(trace));
+        assertThrows(UnauthorizedTraceAccessException.class, () -> traceUseCase.getTraceByClient(clientId));
     }
 
     @Test
-    void getTracesByOrderIdShouldRejectNullId() {
-        assertThrows(IllegalArgumentException.class, () -> traceUseCase.getTracesByOrderId(null));
+    void getTraceByClientShouldThrowExceptionWhenUserIdIsNull() {
+        Long clientId = 10L;
+        
+        when(userContextPort.getCurrentUserId()).thenReturn(null);
+
+        assertThrows(UnauthorizedTraceAccessException.class, () -> traceUseCase.getTraceByClient(clientId));
     }
 }
