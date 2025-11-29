@@ -19,4 +19,4 @@ springdoc:
     operationsSorter: method
 
 jwt:
-  secret: cG93ZXJ1cC10cmFjZWFiaWxpdHktbWljcm9zZXJ2aWNlLXNlY3JldC1rZXktMTIzNDU2Nzg5
+  secret: ${JWT_SECRET:mySuperSecureSecretKeyForPragmaPowerUpProject2025}

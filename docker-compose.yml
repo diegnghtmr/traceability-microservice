@@ -28,6 +28,7 @@ services:
       SPRING_DATA_MONGODB_HOST: traceability-mongodb
       SPRING_DATA_MONGODB_PORT: 27017
       SPRING_DATA_MONGODB_DATABASE: traceability_db
+      JWT_SECRET: mySuperSecureSecretKeyForPragmaPowerUpProject2025
     depends_on:
       traceability-mongodb:
         condition: service_healthy
