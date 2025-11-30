@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TraceResponseDto {
     private String id;
-    private Long orderId;
+    private String orderId;
     private Long clientId;
     private String employeeEmail;
     private String previousState;

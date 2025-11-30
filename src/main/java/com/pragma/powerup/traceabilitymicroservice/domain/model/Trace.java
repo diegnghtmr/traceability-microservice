@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Trace {
     private String id;
-    private Long orderId;
+    private String orderId;
     private Long clientId;
     private String employeeEmail;
     private String previousState;
@@ -15,7 +15,7 @@ public class Trace {
     public Trace() {
     }
 
-    public Trace(String id, Long orderId, Long clientId, String employeeEmail, String previousState, String newState, LocalDateTime time, Long restaurantId) {
+    public Trace(String id, String orderId, Long clientId, String employeeEmail, String previousState, String newState, LocalDateTime time, Long restaurantId) {
         this.id = id;
         this.orderId = orderId;
         this.clientId = clientId;
@@ -34,11 +34,11 @@ public class Trace {
         this.id = id;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

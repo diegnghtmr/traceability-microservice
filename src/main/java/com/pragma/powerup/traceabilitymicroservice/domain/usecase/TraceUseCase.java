@@ -47,13 +47,13 @@ public class TraceUseCase implements ITraceServicePort {
         }
 
         List<Trace> traces = tracePersistencePort.getAllTracesByRestaurant(restaurantId);
-        Map<Long, List<Trace>> tracesByOrder = traces.stream()
+        Map<String, List<Trace>> tracesByOrder = traces.stream()
                 .collect(Collectors.groupingBy(Trace::getOrderId));
 
         List<OrderEfficiency> report = new ArrayList<>();
 
-        for (Map.Entry<Long, List<Trace>> entry : tracesByOrder.entrySet()) {
-            Long orderId = entry.getKey();
+        for (Map.Entry<String, List<Trace>> entry : tracesByOrder.entrySet()) {
+            String orderId = entry.getKey();
             List<Trace> orderTraces = entry.getValue();
 
             LocalDateTime startTime = getStartTime(orderTraces);
@@ -76,7 +76,7 @@ public class TraceUseCase implements ITraceServicePort {
         }
 
         List<Trace> traces = tracePersistencePort.getAllTracesByRestaurant(restaurantId);
-        Map<Long, List<Trace>> tracesByOrder = traces.stream()
+        Map<String, List<Trace>> tracesByOrder = traces.stream()
                 .collect(Collectors.groupingBy(Trace::getOrderId));
 
         // Map<EmployeeEmail, List<Duration>>

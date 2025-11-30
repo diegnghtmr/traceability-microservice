@@ -1,22 +1,22 @@
 package com.pragma.powerup.traceabilitymicroservice.domain.model;
 
 public class OrderEfficiency {
-    private Long orderId;
+    private String orderId;
     private Long durationInMinutes;
 
     public OrderEfficiency() {
     }
 
-    public OrderEfficiency(Long orderId, Long durationInMinutes) {
+    public OrderEfficiency(String orderId, Long durationInMinutes) {
         this.orderId = orderId;
         this.durationInMinutes = durationInMinutes;
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

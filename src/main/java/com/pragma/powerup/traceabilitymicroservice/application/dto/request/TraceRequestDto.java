@@ -12,11 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TraceRequestDto {
-    @NotNull
-    private Long orderId;
+    @NotBlank
+    private String orderId;
     @NotNull
     private Long clientId;
-    @NotBlank
+    // Optional for client-originated traces; keep optional to allow "N/A"
     private String employeeEmail;
     @NotBlank
     private String previousState;

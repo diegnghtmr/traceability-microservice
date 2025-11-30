@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TraceEntity {
     @Id
     private String id;
-    private Long orderId;
+    private String orderId;
     private Long clientId;
     private String employeeEmail;
     private String previousState;
