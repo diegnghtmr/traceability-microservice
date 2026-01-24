@@ -95,10 +95,22 @@ public class TraceUseCase implements ITraceServicePort {
             }
         }
 
+        // Calculate efficiency: efficiency = 100 - (averageTime / targetTime * 100)
+        // Target time is 30 minutes (configurable baseline)
+        final double TARGET_TIME_MINUTES = 30.0;
+
         List<EmployeeEfficiency> ranking = new ArrayList<>();
         for (Map.Entry<String, List<Long>> entry : durationsByEmployee.entrySet()) {
-            double average = entry.getValue().stream().mapToLong(Long::longValue).average().orElse(0.0);
-            ranking.add(new EmployeeEfficiency(entry.getKey(), average));
+            List<Long> durations = entry.getValue();
+            int completedOrders = durations.size();
+            double averageTime = durations.stream().mapToLong(Long::longValue).average().orElse(0.0);
+            
+            // Efficiency calculation: faster = higher efficiency
+            // If average time is 0 or less than target, efficiency is 100%
+            // If average time exceeds target, efficiency decreases proportionally
+            double efficiency = Math.max(0, Math.min(100, (TARGET_TIME_MINUTES / Math.max(averageTime, 1)) * 100));
+            
+            ranking.add(new EmployeeEfficiency(entry.getKey(), completedOrders, averageTime, efficiency));
         }
 
         return ranking.stream()

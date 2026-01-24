@@ -6,6 +6,7 @@ import com.pragma.powerup.traceabilitymicroservice.domain.model.EmployeeEfficien
 import com.pragma.powerup.traceabilitymicroservice.domain.model.OrderEfficiency;
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
@@ -15,6 +16,8 @@ public interface IEfficiencyMapper {
     OrderEfficiencyDto toOrderEfficiencyDto(OrderEfficiency orderEfficiency);
     List<OrderEfficiencyDto> toOrderEfficiencyDtoList(List<OrderEfficiency> orderEfficiencyList);
 
+    @Mapping(source = "employeeEmail", target = "employeeName")
+    @Mapping(source = "averageDurationInMinutes", target = "averageCompletionTime")
     EmployeeEfficiencyDto toEmployeeEfficiencyDto(EmployeeEfficiency employeeEfficiency);
     List<EmployeeEfficiencyDto> toEmployeeEfficiencyDtoList(List<EmployeeEfficiency> employeeEfficiencyList);
 }

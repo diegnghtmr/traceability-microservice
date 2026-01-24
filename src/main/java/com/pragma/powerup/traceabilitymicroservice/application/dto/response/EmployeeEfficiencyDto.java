@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeEfficiencyDto {
-    private String employeeEmail;
-    private Double averageDurationInMinutes;
+    private String employeeName;
+    private Integer completedOrders;
+    private Double averageCompletionTime;
+    private Double efficiency;
 }
