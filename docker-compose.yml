@@ -19,15 +19,13 @@ services:
   traceability-microservice:
     build: .
     container_name: traceability-microservice
-    command: ["--spring.data.mongodb.uri=mongodb://traceability-mongodb:27017/traceability_db"]
+    command: ["--spring.mongodb.uri=mongodb://traceability-mongodb:27017/traceability_db"]
     ports:
       - "8093:8093"
     environment:
-      SPRING_APPLICATION_JSON: '{"spring":{"data":{"mongodb":{"uri":"mongodb://traceability-mongodb:27017/traceability_db"}},"mongodb":{"uri":"mongodb://traceability-mongodb:27017/traceability_db"}}}'
-      SPRING_DATA_MONGODB_URI: mongodb://traceability-mongodb:27017/traceability_db
-      SPRING_DATA_MONGODB_HOST: traceability-mongodb
-      SPRING_DATA_MONGODB_PORT: 27017
-      SPRING_DATA_MONGODB_DATABASE: traceability_db
+      SPRING_APPLICATION_JSON: '{"spring":{"mongodb":{"uri":"mongodb://traceability-mongodb:27017/traceability_db","database":"traceability_db"}}}'
+      SPRING_MONGODB_URI: mongodb://traceability-mongodb:27017/traceability_db
+      SPRING_MONGODB_DATABASE: traceability_db
       JWT_SECRET: mySuperSecureSecretKeyForPragmaPowerUpProject2025
     depends_on:
       traceability-mongodb:

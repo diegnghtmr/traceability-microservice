@@ -6,10 +6,10 @@ server:
 spring:
   application:
     name: traceability-microservice
-  data:
-    mongodb:
-      uri: mongodb://localhost:27018/traceability_db
-      auto-index-creation: true
+  mongodb:
+    uri: ${SPRING_MONGODB_URI:mongodb://localhost:27018/traceability_db}
+    database: ${SPRING_MONGODB_DATABASE:traceability_db}
+    auto-index-creation: true
 
 springdoc:
   api-docs:
