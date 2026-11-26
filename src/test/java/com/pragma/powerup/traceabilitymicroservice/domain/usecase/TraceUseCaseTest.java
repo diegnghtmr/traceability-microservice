@@ -34,13 +34,13 @@ class TraceUseCaseTest {
 
     @Test
     void saveTraceShouldDelegateToPersistence() {
-        Trace trace = new Trace(null, 1L, 10L, "employee@test.com", "CREATED", "READY", LocalDateTime.now(), 20L);
+        Trace trace = new Trace(null, "1", 10L, "employee@test.com", "CREATED", "READY", LocalDateTime.now(), 20L);
         
         traceUseCase.saveTrace(trace);
 
         ArgumentCaptor<Trace> traceCaptor = ArgumentCaptor.forClass(Trace.class);
         verify(tracePersistencePort).saveTrace(traceCaptor.capture());
-        assertEquals(1L, traceCaptor.getValue().getOrderId());
+        assertEquals("1", traceCaptor.getValue().getOrderId());
         assertEquals(10L, traceCaptor.getValue().getClientId());
         assertEquals("employee@test.com", traceCaptor.getValue().getEmployeeEmail());
         assertEquals("CREATED", traceCaptor.getValue().getPreviousState());
@@ -51,7 +51,7 @@ class TraceUseCaseTest {
     @Test
     void getTraceByClientShouldReturnPersistenceResultWhenAuthorized() {
         Long clientId = 10L;
-        List<Trace> traces = List.of(new Trace("1", 2L, clientId, "employee@test.com", "PENDING", "DONE", LocalDateTime.now(), 22L));
+        List<Trace> traces = List.of(new Trace("1", "2", clientId, "employee@test.com", "PENDING", "DONE", LocalDateTime.now(), 22L));
         
         when(userContextPort.getCurrentUserId()).thenReturn(clientId);
         when(tracePersistencePort.getTraceByClient(clientId)).thenReturn(traces);
