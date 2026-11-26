@@ -49,18 +49,11 @@ docker compose up -d traceability-mongodb
 
 API: `http://localhost:8093/traceability-api`. Open [Swagger UI](http://localhost:8093/traceability-api/swagger-ui.html) for transition ingestion, customer history, and efficiency endpoints under `/trace`.
 
-| Name | Purpose | Default |
-| --- | --- | --- |
-| `SPRING_MONGODB_URI` | MongoDB connection URI | `mongodb://localhost:27018/traceability_db` |
-| `SPRING_MONGODB_DATABASE` | Transition database name | `traceability_db` |
-| `JWT_SECRET` | JWT verification secret | Local development value; use a private value matching Identity outside local development |
-| `USER_SERVICE_URL` | Identity API base URL used to resolve employee names | `http://localhost:8090/user-api` |
-
-To populate transitions through the app, start the [Order and Identity APIs](#related-repositories) as part of the Food Court stack. Traceability receives a separate request after an order update; lost calls can leave gaps in the history, so the reports are based only on stored transitions.
+Start the [Order and Identity APIs](#related-repositories) to populate transitions and resolve employee names. See the [configuration reference](docs/reference.md#data-store-and-environment) for MongoDB and Identity URL overrides.
 
 ## Architecture
 
-REST inputs go through handlers to the domain use case. `TraceMongoAdapter` implements the persistence port, `UserHttpAdapter` resolves employee names for reports, and `UserContextAdapter` exposes caller identity and restaurant context to the domain. Order state remains in a different service and database.
+REST inputs go through handlers to the domain use case. Adapters provide trace persistence, employee name lookup, and caller identity and restaurant context. Order state stays in its own service and database.
 
 ```mermaid
 flowchart LR
@@ -70,8 +63,6 @@ flowchart LR
     Domain -->|"Store and query timestamps"| DB["MongoDB: traceability_db"]
     API -->|"Resolve employee names for reports"| Identity["user-microservice"]
 ```
-
-See the [system diagrams in the web repository](https://github.com/diegnghtmr/food-court-ui/tree/main/docs) for the wider service and data model.
 
 ## Tech stack
 
@@ -88,6 +79,10 @@ See the [system diagrams in the web repository](https://github.com/diegnghtmr/fo
 ```
 
 [CI](.github/workflows/ci.yml) builds and tests on Temurin 25. Use `./gradlew test` for the test task, including use-case coverage for customer authorization and duration reports.
+
+## Documentation
+
+- [Traceability API reference](docs/reference.md) — ingestion, history, efficiency routes, environment, ports and adapters, and system diagrams.
 
 ## Related repositories
 
